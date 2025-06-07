@@ -8,11 +8,10 @@
 		<version>3.5.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>filme</groupId>
-	<artifactId>com</artifactId>
+	<groupId>com.programacaoweb</groupId>
+	<artifactId>filmes</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>com</name>
-	<description>Filmes</description>
+	<name>Filmes</name>
 	<url/>
 	<licenses>
 		<license/>
@@ -46,6 +45,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
