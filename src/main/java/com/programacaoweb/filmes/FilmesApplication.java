@@ -1,13 +1,13 @@
-package filme.com;
+package com.programacaoweb.filmes;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ComApplication {
+public class FilmesApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ComApplication.class, args);
+		SpringApplication.run(FilmesApplication.class, args);
 	}
 
 }
