@@ -1,5 +1,6 @@
 
 :root {
+    --primary-color-300: #21222D;
     --primary-color-500: #15161D;
     --secondary-color-500: #DC3545;
 }
@@ -76,4 +77,48 @@ html, body {
     position: relative;
     /*color: var(--secondary-color-500);*/
     top: 0.1em;
+}
+
+main.cadastro {
+    width: 1fr;
+    padding: 4rem 15rem;
+}
+
+.cadastro-container {
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.cadastro-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+}
+
+.cadastro-container form button {
+    margin-top: 2.5rem;
+    background-color: var(--primary-color-500);
+    color: white;
+}
+
+.cadastro-container form button:hover {
+    background-color: var(--primary-color-300);
+    color: white;
+}
+
+.cadastro-container label {
+    display: flex;
+    flex-direction: column;
+}
+.cadastro-container-header {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white;
+    background-color: var(--primary-color-500);
+    border-bottom: 2px solid var(--secondary-color-500);
+    padding: 0.5rem;
+}
+
+.input-error {
+    color: var(--secondary-color-500);
 }
