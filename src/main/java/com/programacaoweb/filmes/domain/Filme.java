@@ -24,11 +24,11 @@ public class Filme {
     private String title;
     @NotBlank(message = "A descrição deve ser preenchida")
     private String description;
-    @NotNull
+    @NotBlank(message = "O gênero deve ser preenchido")
     private String genre;
-    @NotNull
+    @NotNull(message = "O preço não pode ser nulo")
     private Float price;
-    @NotBlank
+    @NotBlank(message = "O diretor deve ser preenchido")
     private String director;
     private LocalDate isDeleted;
     private String imageUrl;
