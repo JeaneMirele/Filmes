@@ -46,6 +46,11 @@ html, body {
     justify-content: center;
 }
 
+.footer {
+    background-color: var(--primary-color-500);
+    color: white;
+}
+
 .header-options a,
 .header-options a:visited{
     color: white;
