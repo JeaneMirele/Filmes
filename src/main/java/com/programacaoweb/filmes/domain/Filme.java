@@ -25,6 +25,8 @@ public class Filme {
     @NotBlank(message = "A descrição deve ser preenchida")
     private String description;
     @NotNull
+    private String genre;
+    @NotNull
     private Float price;
     @NotBlank
     private String director;
