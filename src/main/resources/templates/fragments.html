@@ -33,5 +33,13 @@
             Carrinho
         </span>
     </a>
+    <div th:replace="fragments :: card(filme)">
+    <div class="card">
+        <img th:src="@{${filme.imageUrl}}" alt="Imagem" class="card-img" />
+        <h3 th:text="${filme.name}">Nome do Produto</h3>
+        <p class="preco" th:text="'R$ ' + ${filme.price}">Preço</p>
+        <button>Adicionar ao carrinho</button>
+    </div>
+    </div>
 </body>
 </html>
