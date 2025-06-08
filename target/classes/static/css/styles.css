@@ -1,0 +1,79 @@
+
+:root {
+    --primary-color-500: #15161D;
+    --secondary-color-500: #DC3545;
+}
+
+
+html, body {
+    width: 1fr;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.header {
+    display: block;
+    padding: 1rem 6rem;
+    background-color: var(--primary-color-500);
+    color: white;
+    max-height: 6rem;
+    border-bottom: 2px solid var(--secondary-color-500);
+}
+
+.header-container {
+    display: grid;
+    grid-template-columns: 14rem 1fr 20rem;
+    align-items: center;
+}
+
+.header-options {
+    grid-column: 3 / span 1;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.cart-icon {
+    position: relative;
+    left: -5px;
+}
+
+.cart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-options a,
+.header-options a:visited{
+    color: white;
+    fill: white;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    height: 2rem;
+    font-size: 2rem;
+    font-weight: bold;
+    overflow: hidden;
+}
+
+.logo span {
+    line-height: 1;
+}
+
+.logo .dot {
+    font-size: 4rem;
+    position: relative;
+    color: var(--secondary-color-500);
+    top: -0.2em;
+}
+
+.logo .com {
+    font-size: 1.5rem;
+    position: relative;
+    /*color: var(--secondary-color-500);*/
+    top: 0.1em;
+}
