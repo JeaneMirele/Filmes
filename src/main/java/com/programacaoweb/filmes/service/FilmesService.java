@@ -38,6 +38,11 @@ public class FilmesService {
                   new IllegalArgumentException("Filme Não Encontrado"));
      }
 
+    public List<Filme> findAll() {
+         List<Filme> filmes = filmesRepository.findAll();
+         return filmes;
+    }
+
      public List<Filme> findNotDeletedFilmes() {
           return filmesRepository.findAllByIsDeletedIsNull();
      }

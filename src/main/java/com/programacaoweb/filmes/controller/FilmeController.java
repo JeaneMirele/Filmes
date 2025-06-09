@@ -3,20 +3,18 @@ package com.programacaoweb.filmes.controller;
 import com.programacaoweb.filmes.domain.Filme;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import com.programacaoweb.filmes.domain.Filme;
 import com.programacaoweb.filmes.service.FilmesService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.IOException;
 import java.util.List;
+
 
 @Controller
 public class FilmeController {
@@ -37,7 +35,7 @@ public class FilmeController {
     }
 
     @PostMapping("/salvar")
-    public String salvar(@ModelAttribute @Valid Filme filme, Errors errors, Model model) {
+    public String salvar(@ModelAttribute @Valid Filme filme, Errors errors, Model model, RedirectAttributes redirectAttributes) {
         if (errors.hasErrors()) {
             if (filme.getId() == null) {
                 return "cadastro";
@@ -47,6 +45,7 @@ public class FilmeController {
             }
         }
         filmesService.save(filme);
+        redirectAttributes.addFlashAttribute("mensagemSucesso", "Atualização salva com sucesso!");
         return "redirect:/admin";
     }
 
@@ -60,6 +59,14 @@ public class FilmeController {
             model.addAttribute("erro", ex.getMessage());
             return "erro";
         }
+
+    }
+
+    @GetMapping("/admin")
+    public String admin(Model model) {
+    List<Filme> filmes = filmesService.findAll();
+    model.addAttribute("filmes", filmes);
+        return "admin";
     }
     @GetMapping("/deletar/{id}")
     public String deletarFilme(@PathVariable Long id, Model model) {

@@ -128,7 +128,7 @@ a.btn:hover{
     top: 0.1em;
 }
 
-main.cadastro, main.editar {
+main.cadastro,main.editar {
     width: 1fr;
     padding: 4rem 15rem;
 }
@@ -203,4 +203,13 @@ main.catalogo {
     .catalogo-grid {
         grid-template-columns: repeat(1, 1fr);
     }
+}
+
+table, th, td {
+    border: 1px solid #dee2e6;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
 }
