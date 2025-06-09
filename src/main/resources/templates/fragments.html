@@ -34,14 +34,17 @@
         </span>
     </a>
     </div>
-    <div th:fragment="card(filme)" class="card" style="width: 18rem;">
+    <div th:fragment="card(filme)" class="card">
         <img th:src="@{${filme.imageUrl}}" alt="Imagem" class="card-img" />
         <div class="card-body" >
-            <div class="d-flex justify-content-center"><h5 class="card-title" th:text="${filme.title}">Nome do Produto</h5></div>
-            <div class="d-flex justify-content-center"><p class="card-text" th:text="${filme.genre}">Gênero</p></div>
-            <div class="d-flex justify-content-end"><p class="preco" th:text="'R$ ' + ${filme.price}">Preço</p></div>
-
-            <a href="#" class="btn">Adicionar ao Carrinho</a>
+            <div>
+                <div class="d-flex justify-content-center"><h5 class="card-title text-center" th:text="${filme.title}">Nome do Produto</h5></div>
+                <div class="d-flex justify-content-center"><p class="card-text text-center" th:text="${filme.genre}">Gênero</p></div>
+            </div>
+            <div>
+                <div class="d-flex justify-content-end"><p class="preco" th:text="'R$ ' + ${filme.price}">Preço</p></div>
+                <a th:href="@{'/adicionarCarrinho/' + ${filme.id}}" class="btn">Adicionar ao Carrinho</a>
+            </div>
         </div>
     </div>
     <footer th:fragment="footer" class="footer">

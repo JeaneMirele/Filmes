@@ -2,12 +2,9 @@ package com.programacaoweb.filmes.service;
 
 import com.programacaoweb.filmes.domain.Filme;
 import com.programacaoweb.filmes.repository.FilmesRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class FilmesService {
@@ -41,4 +38,8 @@ public class FilmesService {
          List<Filme> filmes = filmesRepository.findAll();
          return filmes;
     }
+
+     public List<Filme> findNotDeletedFilmes() {
+          return filmesRepository.findAllByIsDeletedIsNull();
+     }
 }

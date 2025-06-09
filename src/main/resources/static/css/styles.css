@@ -13,6 +13,16 @@ html, body {
     margin: 0;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex-grow: 1;
+    /*height: 100%;*/
+}
+
 .header {
     display: block;
     padding: 1rem 6rem;
@@ -51,6 +61,7 @@ html, body {
 }
 .card{
     overflow: hidden;
+    height: 100% !important;
 }
 .description{
     max-height: 10rem;
@@ -58,15 +69,22 @@ html, body {
 }
 .card-img{
     object-fit: cover;
-    max-height: 15rem;
+    min-height: 10rem;
+    max-height: 10rem;
     border-radius: 0px;
 }
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 a.btn{
     background-color: var(--primary-color-500);
     color: white;
     width: 100%;
 }
-
 a.btn:hover{
     background-color: var(--primary-color-300);
     color: white;
@@ -75,7 +93,6 @@ a.btn:hover{
 .footer {
     background-color: var(--primary-color-500);
     color: white;
-    margin-top: auto;
 }
 
 .header-options a,
@@ -142,6 +159,7 @@ main.cadastro,main.editar {
     display: flex;
     flex-direction: column;
 }
+
 .cadastro-container-header, .editar-container-header {
     font-size: 1.2rem;
     font-weight: 600;
@@ -151,8 +169,40 @@ main.cadastro,main.editar {
     padding: 0.5rem;
 }
 
+main.catalogo {
+    padding: 4rem 6rem;
+}
+
+.catalogo-grid {
+    display: grid;
+    width: 100%;
+    max-width: 100%;
+    min-height: 24rem;
+    height: 100%;
+    gap: 0.5rem;
+    grid-template-columns: repeat(4, 1fr);
+}
+
 .input-error {
     color: var(--secondary-color-500);
+}
+
+@media (max-width: 845px) {
+    .catalogo-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .catalogo-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 512px) {
+    .catalogo-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
 }
 
 table, th, td {
