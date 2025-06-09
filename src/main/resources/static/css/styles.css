@@ -46,6 +46,31 @@ html, body {
     justify-content: center;
 }
 
+.card img{
+    border-radius: 0px;
+}
+.card{
+    overflow: hidden;
+}
+.description{
+    max-height: 10rem;
+    overflow: hidden;
+}
+.card-img{
+    object-fit: cover;
+    max-height: 15rem;
+    border-radius: 0px;
+}
+a.btn{
+    background-color: var(--primary-color-500);
+    color: white;
+    width: 100%;
+}
+a.btn:hover{
+    background-color: var(--primary-color-300);
+    color: white;
+}
+
 .footer {
     background-color: var(--primary-color-500);
     color: white;
