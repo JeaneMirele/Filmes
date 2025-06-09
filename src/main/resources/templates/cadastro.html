@@ -16,7 +16,7 @@
       <div class="cadastro-container-header">
         Cadastro
       </div>
-      <form method="post"  th:action="@{/save}" th:object="${filme}">
+      <form method="post"  th:action="@{/salvar}" th:object="${filme}">
         <label>
           Título
           <input type="text" th:field="*{title}">
