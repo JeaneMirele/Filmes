@@ -1,21 +1,22 @@
 package com.programacaoweb.filmes.domain;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Getter
+@Setter
 @Builder
+@Entity
 public class Filme {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,11 +25,11 @@ public class Filme {
     private String title;
     @NotBlank(message = "A descrição deve ser preenchida")
     private String description;
-    @NotNull
+    @NotBlank(message = "O gênero deve ser preenchido")
     private String genre;
-    @NotNull
+    @NotNull(message = "O preço não pode ser nulo")
     private Float price;
-    @NotBlank
+    @NotBlank(message = "O diretor deve ser preenchido")
     private String director;
     private LocalDate isDeleted;
     private String imageUrl;

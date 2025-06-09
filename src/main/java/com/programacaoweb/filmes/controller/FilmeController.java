@@ -1,25 +1,49 @@
 package com.programacaoweb.filmes.controller;
 
+<<<<<<< HEAD
 
 import com.programacaoweb.filmes.domain.Filme;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+=======
+import com.programacaoweb.filmes.domain.Filme;
+import com.programacaoweb.filmes.service.FilmesService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+>>>>>>> 0c90cbf92b30b4e494dec56de88added2c4894ae
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.io.IOException;
 
 @Controller
 public class FilmeController {
+     @Autowired
+     private FilmesService filmesService;
+
     @GetMapping
     public String index(Model model) {
         return "index";
     }
 
-    @GetMapping("/home")
-    public String home(Model model){
-        Filme filme = new Filme(1L,"A viagem de Chihiro", "Chihiro e seus pais estão se mudando para uma cidade diferente. A caminho da nova casa, o pai decide pegar um atalho. Eles se deparam com uma mesa repleta de comida, embora ninguém esteja por perto. Chihiro sente o perigo, mas seus pais começam a comer. Quando anoitece, eles se transformam em porcos. Agora, apenas Chihiro pode salvá-los.", "Ficção científica", 39.90f,
-                "Hayao Miyazaki",null, "/img/Chihiro.jpg");
+    @GetMapping("/cadastro")
+    public String cadastro(Model model) {
+        model.addAttribute("filme", new Filme());
+        return "cadastro";
+    }
 
-        model.addAttribute("filme", filme);
-        model.addAttribute("count", 1);
-        return "index";
+    @PostMapping("/salvar")
+    public String salvar(@ModelAttribute @Valid Filme filme, Errors errors) {
+        if (errors.hasErrors()) {
+            return "cadastro";
+        } else {
+             this.filmesService.save(filme);
+            return "redirect:/admin"; // ajustar
+        }
+
     }
 }
