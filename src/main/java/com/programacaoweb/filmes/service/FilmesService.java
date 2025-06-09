@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class FilmesService {
@@ -21,7 +22,7 @@ public class FilmesService {
      public void save(Filme filme) {
           if(filme.getId() == null) {
                fileStorageService.loadRandomFileRelativePath().ifPresent((p) -> {
-                    filme.setImageUrl(p.toString());
+                    filme.setImageUrl("/images/" + p.toString());
                });
           }else{
                Filme FilmImage = filmesRepository.findById(filme.getId()).orElseThrow();
@@ -33,5 +34,9 @@ public class FilmesService {
      public Filme findById(Long id) {
           return filmesRepository.findById(id).orElseThrow(() ->
                   new IllegalArgumentException("Filme Não Encontrado"));
+     }
+
+     public List<Filme> findNotDeletedFilmes() {
+          return filmesRepository.findAllByIsDeletedIsNull();
      }
 }

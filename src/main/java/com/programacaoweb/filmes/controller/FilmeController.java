@@ -1,11 +1,8 @@
 package com.programacaoweb.filmes.controller;
 
-<<<<<<< HEAD
-
 import com.programacaoweb.filmes.domain.Filme;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-=======
 import com.programacaoweb.filmes.domain.Filme;
 import com.programacaoweb.filmes.service.FilmesService;
 import jakarta.validation.Valid;
@@ -13,13 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
->>>>>>> 0c90cbf92b30b4e494dec56de88added2c4894ae
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class FilmeController {
@@ -28,6 +25,8 @@ public class FilmeController {
 
     @GetMapping
     public String index(Model model) {
+        List<Filme> filmes = filmesService.findNotDeletedFilmes();
+        model.addAttribute("filmes", filmes);
         return "index";
     }
 
@@ -61,7 +60,6 @@ public class FilmeController {
             model.addAttribute("erro", ex.getMessage());
             return "erro";
         }
-
     }
 
 }
