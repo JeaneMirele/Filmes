@@ -84,38 +84,38 @@ html, body {
     top: 0.1em;
 }
 
-main.cadastro {
+main.cadastro,main.editar {
     width: 1fr;
     padding: 4rem 15rem;
 }
 
-.cadastro-container {
+.cadastro-container, .editar-container {
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
-.cadastro-container form {
+.cadastro-container form, .editar-container form{
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     padding: 1rem;
 }
 
-.cadastro-container form button {
+.cadastro-container form button, .editar-container form button {
     margin-top: 2.5rem;
     background-color: var(--primary-color-500);
     color: white;
 }
 
-.cadastro-container form button:hover {
+.cadastro-container form button:hover, .editar-container form button:hover{
     background-color: var(--primary-color-300);
     color: white;
 }
 
-.cadastro-container label {
+.cadastro-container label, .editar-container label{
     display: flex;
     flex-direction: column;
 }
-.cadastro-container-header {
+.cadastro-container-header, .editar-container-header {
     font-size: 1.2rem;
     font-weight: 600;
     color: white;

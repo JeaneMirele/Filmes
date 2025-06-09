@@ -19,10 +19,19 @@ public class FilmesService {
      }
 
      public void save(Filme filme) {
-          fileStorageService.loadRandomFileRelativePath().ifPresent((p) -> {
-               filme.setImageUrl(p.toString());
-          });
-
+          if(filme.getId() == null) {
+               fileStorageService.loadRandomFileRelativePath().ifPresent((p) -> {
+                    filme.setImageUrl(p.toString());
+               });
+          }else{
+               Filme FilmImage = filmesRepository.findById(filme.getId()).orElseThrow();
+               filme.setImageUrl(FilmImage.getImageUrl());
+          }
           this.filmesRepository.save(filme);
+     }
+
+     public Filme findById(Long id) {
+          return filmesRepository.findById(id).orElseThrow(() ->
+                  new IllegalArgumentException("Filme Não Encontrado"));
      }
 }
