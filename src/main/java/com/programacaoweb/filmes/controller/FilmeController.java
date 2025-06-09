@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.util.List;
 
 
@@ -21,6 +23,8 @@ public class FilmeController {
 
     @GetMapping
     public String index(Model model) {
+        List<Filme> filmes = filmesService.findNotDeletedFilmes();
+        model.addAttribute("filmes", filmes);
         return "index";
     }
 
@@ -31,7 +35,7 @@ public class FilmeController {
     }
 
     @PostMapping("/salvar")
-    public String salvar(@ModelAttribute @Valid Filme filme, Errors errors, Model model) {
+    public String salvar(@ModelAttribute @Valid Filme filme, Errors errors, Model model, RedirectAttributes redirectAttributes) {
         if (errors.hasErrors()) {
             if (filme.getId() == null) {
                 return "cadastro";
@@ -41,6 +45,7 @@ public class FilmeController {
             }
         }
         filmesService.save(filme);
+        redirectAttributes.addFlashAttribute("mensagemSucesso", "Atualização salva com sucesso!");
         return "redirect:/admin";
     }
 
@@ -62,6 +67,27 @@ public class FilmeController {
     List<Filme> filmes = filmesService.findAll();
     model.addAttribute("filmes", filmes);
         return "admin";
+    }
+    @GetMapping("/deletar/{id}")
+    public String deletarFilme(@PathVariable Long id, Model model) {
+        try {
+            filmesService.delete(id);
+            return "admin";
+        } catch (RuntimeException ex) {
+            model.addAttribute("erro", ex.getMessage());
+            return "erro";
+        }
+    }
+
+    @GetMapping("/restaurar/{id}")
+    public String restaurarFilme(@PathVariable Long id, Model model) {
+        try {
+            filmesService.restore(id);
+            return "admin";
+        } catch (RuntimeException ex) {
+            model.addAttribute("erro", ex.getMessage());
+            return "erro";
+        }
     }
 
 }
