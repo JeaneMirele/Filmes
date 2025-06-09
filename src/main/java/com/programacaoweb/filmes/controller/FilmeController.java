@@ -9,14 +9,15 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.IOException;
 
 @Controller
 public class FilmeController {
-     @Autowired
-     private FilmesService filmesService;
+    @Autowired
+    private FilmesService filmesService;
 
     @GetMapping
     public String index(Model model) {
@@ -30,12 +31,29 @@ public class FilmeController {
     }
 
     @PostMapping("/salvar")
-    public String salvar(@ModelAttribute @Valid Filme filme, Errors errors) {
+    public String salvar(@ModelAttribute @Valid Filme filme, Errors errors, Model model) {
         if (errors.hasErrors()) {
-            return "cadastro";
-        } else {
-             this.filmesService.save(filme);
-            return "redirect:/admin"; // ajustar
+            if (filme.getId() == null) {
+                return "cadastro";
+            } else {
+                model.addAttribute("filme", filme);
+                return "editar";
+            }
+        }
+        filmesService.save(filme);
+        return "redirect:/admin";
+    }
+
+    @GetMapping("/editar/{id}")
+    public String editarFilme(@PathVariable Long id, Model model) {
+        try {
+            Filme filme = filmesService.findById(id);
+            model.addAttribute("filme", filme);
+            return "editar";
+        } catch (IllegalArgumentException ex) {
+            model.addAttribute("erro", ex.getMessage());
+            return "erro";
         }
     }
+
 }
