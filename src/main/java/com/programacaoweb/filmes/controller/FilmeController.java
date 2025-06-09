@@ -61,5 +61,26 @@ public class FilmeController {
             return "erro";
         }
     }
+    @GetMapping("/deletar/{id}")
+    public String deletarFilme(@PathVariable Long id, Model model) {
+        try {
+            filmesService.delete(id);
+            return "admin";
+        } catch (RuntimeException ex) {
+            model.addAttribute("erro", ex.getMessage());
+            return "erro";
+        }
+    }
+
+    @GetMapping("/restaurar/{id}")
+    public String restaurarFilme(@PathVariable Long id, Model model) {
+        try {
+            filmesService.restore(id);
+            return "admin";
+        } catch (RuntimeException ex) {
+            model.addAttribute("erro", ex.getMessage());
+            return "erro";
+        }
+    }
 
 }
