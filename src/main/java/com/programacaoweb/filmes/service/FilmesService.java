@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FilmesService {
@@ -34,4 +36,9 @@ public class FilmesService {
           return filmesRepository.findById(id).orElseThrow(() ->
                   new IllegalArgumentException("Filme Não Encontrado"));
      }
+
+    public List<Filme> findAll() {
+         List<Filme> filmes = filmesRepository.findAll();
+         return filmes;
+    }
 }

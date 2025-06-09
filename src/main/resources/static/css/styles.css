@@ -66,6 +66,7 @@ a.btn{
     color: white;
     width: 100%;
 }
+
 a.btn:hover{
     background-color: var(--primary-color-300);
     color: white;
@@ -74,6 +75,7 @@ a.btn:hover{
 .footer {
     background-color: var(--primary-color-500);
     color: white;
+    margin-top: auto;
 }
 
 .header-options a,
@@ -151,4 +153,13 @@ main.cadastro,main.editar {
 
 .input-error {
     color: var(--secondary-color-500);
+}
+
+table, th, td {
+    border: 1px solid #dee2e6;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
 }
