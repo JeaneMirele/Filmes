@@ -30,7 +30,7 @@ public class FilmeController {
     }
 
     @GetMapping("/cadastro")
-    public String cadastro(Model model, HttpSession session) {
+    public String cadastro(Model model) {
         model.addAttribute("filme", new Filme());
         return "cadastro";
     }
@@ -81,7 +81,7 @@ public class FilmeController {
     public String deletarFilme(@PathVariable Long id, Model model) {
         try {
             filmesService.delete(id);
-            return "redirect:/admin";
+            return "admin";
         } catch (RuntimeException ex) {
             model.addAttribute("erro", ex.getMessage());
             return "erro";
@@ -117,4 +117,16 @@ public class FilmeController {
         session.setAttribute("carrinho", carrinho);
         return "redirect:/";
     }
-}
+
+    @GetMapping("/verCarrinho")
+    public String verCarrinho(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        List<Filme> carrinho = (List<Filme>) session.getAttribute("carrinho");
+
+        if (carrinho == null || carrinho.isEmpty()) {
+            redirectAttributes.addFlashAttribute("mensagemError", "Não existem itens no carrinho");
+            return "redirect:/";
+        }
+
+        model.addAttribute("carrinho", carrinho);
+        return "carrinho";
+    }
