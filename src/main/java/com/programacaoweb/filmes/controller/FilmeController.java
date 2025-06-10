@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class FilmeController {
     private FilmesService filmesService;
 
     @GetMapping
-    public String index(Model model, HttpSession session) {
+    public String index(Model model) {
         List<Filme> filmes = filmesService.findNotDeletedFilmes();
         model.addAttribute("filmes", filmes);
         model.addAttribute("carrinhoQtd", getCarrinhoQtd(session));
@@ -40,14 +39,13 @@ public class FilmeController {
         boolean isUpdate = filme.getId() != null;
 
         if (errors.hasErrors()) {
-            if (!isUpdate) {
-                return "redirect:/cadastro";
+            if (filme.getId() == null) {
+                return "cadastro";
             } else {
                 model.addAttribute("filme", filme);
-                return "redirect:/editar";
+                return "editar";
             }
         }
-
         filmesService.save(filme);
         if (!isUpdate) {
             redirectAttributes.addFlashAttribute("mensagemSucesso", "Cadastro realizado com sucesso!");
@@ -131,4 +129,13 @@ public class FilmeController {
         model.addAttribute("carrinho", carrinho);
         return "carrinho";
     }
+
+    @GetMapping("/finalizarCompra")
+    public String finalizarCompra(HttpSession session,RedirectAttributes redirectAttributes) {
+        session.invalidate();
+        redirectAttributes.addFlashAttribute("mensagemSucesso", "Compra finalizada com sucesso!");
+        return "redirect:/";
+    }
 }
+
+
