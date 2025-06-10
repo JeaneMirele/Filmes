@@ -90,7 +90,7 @@ public class FilmeController {
         }
     }
 
-    @GetMapping("/AdicionarCarrinho/{id}")
+    @GetMapping("/adicionarCarrinho/{id}")
     public String adicionarCarrinho(@PathVariable Long id, HttpSession session) {
        Filme filme = filmesService.findById(id);
         List<Filme> carrinho = (List<Filme>) session.getAttribute("carrinho");
