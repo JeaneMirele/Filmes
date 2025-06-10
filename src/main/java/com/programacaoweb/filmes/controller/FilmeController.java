@@ -22,35 +22,43 @@ public class FilmeController {
     private FilmesService filmesService;
 
     @GetMapping
-    public String index(Model model) {
+    public String index(Model model, HttpSession session) {
         List<Filme> filmes = filmesService.findNotDeletedFilmes();
         model.addAttribute("filmes", filmes);
+        model.addAttribute("carrinhoQtd", getCarrinhoQtd(session));
         return "index";
     }
 
     @GetMapping("/cadastro")
-    public String cadastro(Model model) {
+    public String cadastro(Model model, HttpSession session) {
         model.addAttribute("filme", new Filme());
         return "cadastro";
     }
 
     @PostMapping("/salvar")
     public String salvar(@ModelAttribute @Valid Filme filme, Errors errors, Model model, RedirectAttributes redirectAttributes) {
+        boolean isUpdate = filme.getId() != null;
+
         if (errors.hasErrors()) {
-            if (filme.getId() == null) {
-                return "cadastro";
+            if (!isUpdate) {
+                return "redirect:/cadastro";
             } else {
                 model.addAttribute("filme", filme);
-                return "editar";
+                return "redirect:/editar";
             }
         }
+
         filmesService.save(filme);
-        redirectAttributes.addFlashAttribute("mensagemSucesso", "Atualização salva com sucesso!");
+        if (!isUpdate) {
+            redirectAttributes.addFlashAttribute("mensagemSucesso", "Cadastro realizado com sucesso!");
+        } else {
+            redirectAttributes.addFlashAttribute("mensagemSucesso", "Atualização realizada com sucesso!");
+        }
         return "redirect:/admin";
     }
 
     @GetMapping("/editar/{id}")
-    public String editarFilme(@PathVariable Long id, Model model) {
+    public String editarFilme(@PathVariable Long id, Model model, HttpSession session) {
         try {
             Filme filme = filmesService.findById(id);
             model.addAttribute("filme", filme);
@@ -63,16 +71,17 @@ public class FilmeController {
     }
 
     @GetMapping("/admin")
-    public String admin(Model model) {
-    List<Filme> filmes = filmesService.findAll();
-    model.addAttribute("filmes", filmes);
+    public String admin(Model model, HttpSession session) {
+        List<Filme> filmes = filmesService.findAll();
+        model.addAttribute("filmes", filmes);
+        model.addAttribute("carrinhoQtd", getCarrinhoQtd(session));
         return "admin";
     }
     @GetMapping("/deletar/{id}")
     public String deletarFilme(@PathVariable Long id, Model model) {
         try {
             filmesService.delete(id);
-            return "admin";
+            return "redirect:/admin";
         } catch (RuntimeException ex) {
             model.addAttribute("erro", ex.getMessage());
             return "erro";
@@ -83,22 +92,29 @@ public class FilmeController {
     public String restaurarFilme(@PathVariable Long id, Model model) {
         try {
             filmesService.restore(id);
-            return "admin";
+            return "redirect:/admin";
         } catch (RuntimeException ex) {
             model.addAttribute("erro", ex.getMessage());
             return "erro";
         }
     }
 
+    private Long getCarrinhoQtd(HttpSession session) {
+        List<Filme> carrinho = (List<Filme>) session.getAttribute("carrinho");
+        if(carrinho == null)
+            return 0L;
+        return (long) carrinho.size();
+    }
+
     @GetMapping("/adicionarCarrinho/{id}")
     public String adicionarCarrinho(@PathVariable Long id, HttpSession session) {
-       Filme filme = filmesService.findById(id);
+        Filme filme = filmesService.findById(id);
         List<Filme> carrinho = (List<Filme>) session.getAttribute("carrinho");
         if (carrinho == null) {
             carrinho = new ArrayList<>();
         }
         carrinho.add(filme);
         session.setAttribute("carrinho", carrinho);
-        return "redirect:/index";
+        return "redirect:/";
     }
 }
