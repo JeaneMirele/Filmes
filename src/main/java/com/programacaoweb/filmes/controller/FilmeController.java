@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +46,6 @@ public class FilmeController {
                 return "redirect:/editar";
             }
         }
-
         filmesService.save(filme);
         if (!isUpdate) {
             redirectAttributes.addFlashAttribute("mensagemSucesso", "Cadastro realizado com sucesso!");
@@ -131,4 +129,13 @@ public class FilmeController {
         model.addAttribute("carrinho", carrinho);
         return "carrinho";
     }
+
+    @GetMapping("/finalizarCompra")
+    public String finalizarCompra(HttpSession session,RedirectAttributes redirectAttributes) {
+        session.invalidate();
+        redirectAttributes.addFlashAttribute("mensagemSucesso", "Compra finalizada com sucesso!");
+        return "redirect:/";
+    }
 }
+
+
