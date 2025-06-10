@@ -21,7 +21,7 @@ public class FilmeController {
     private FilmesService filmesService;
 
     @GetMapping
-    public String index(Model model) {
+    public String index(Model model, HttpSession session) {
         List<Filme> filmes = filmesService.findNotDeletedFilmes();
         model.addAttribute("filmes", filmes);
         model.addAttribute("carrinhoQtd", getCarrinhoQtd(session));
@@ -80,7 +80,7 @@ public class FilmeController {
     public String deletarFilme(@PathVariable Long id, Model model) {
         try {
             filmesService.delete(id);
-            return "admin";
+            return "redirect:/admin";
         } catch (RuntimeException ex) {
             model.addAttribute("erro", ex.getMessage());
             return "erro";
