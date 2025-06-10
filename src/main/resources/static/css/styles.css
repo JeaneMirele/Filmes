@@ -93,6 +93,7 @@ a.btn:hover{
 .footer {
     background-color: var(--primary-color-500);
     color: white;
+    border-top: 2px solid var(--secondary-color-500);
 }
 
 .header-options a,
@@ -169,10 +170,9 @@ main.cadastro,main.editar {
     padding: 0.5rem;
 }
 
-main.catalogo {
+main.catalogo, main.carrinho, main.lista-filmes {
     padding: 4rem 6rem;
 }
-
 .catalogo-grid {
     display: grid;
     width: 100%;
@@ -181,6 +181,7 @@ main.catalogo {
     height: 100%;
     gap: 0.5rem;
     grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: minmax(24rem, 24rem);
 }
 
 .input-error {
@@ -205,9 +206,21 @@ main.catalogo {
     }
 }
 
+
+
+
+.cadastro-container .acoes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
 table, th, td {
     border: 1px solid #dee2e6;
     border-collapse: collapse;
+}
+table {
+    width: 100%;
 }
 
 th, td {
