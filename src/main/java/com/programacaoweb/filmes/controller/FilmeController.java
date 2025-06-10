@@ -77,6 +77,7 @@ public class FilmeController {
         model.addAttribute("carrinhoQtd", getCarrinhoQtd(session));
         return "admin";
     }
+
     @GetMapping("/deletar/{id}")
     public String deletarFilme(@PathVariable Long id, Model model) {
         try {
@@ -101,7 +102,7 @@ public class FilmeController {
 
     private Long getCarrinhoQtd(HttpSession session) {
         List<Filme> carrinho = (List<Filme>) session.getAttribute("carrinho");
-        if(carrinho == null)
+        if (carrinho == null)
             return 0L;
         return (long) carrinho.size();
     }
@@ -130,3 +131,4 @@ public class FilmeController {
         model.addAttribute("carrinho", carrinho);
         return "carrinho";
     }
+}

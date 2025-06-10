@@ -170,10 +170,9 @@ main.cadastro,main.editar {
     padding: 0.5rem;
 }
 
-main.catalogo {
+main.catalogo, main.carrinho, main.lista-filmes {
     padding: 4rem 6rem;
 }
-
 .catalogo-grid {
     display: grid;
     width: 100%;
@@ -208,9 +207,7 @@ main.catalogo {
 }
 
 
-main.lista-filmes {
-    padding: 4rem 6rem;
-}
+
 
 .cadastro-container .acoes {
     display: flex;
