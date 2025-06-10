@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,11 +64,10 @@ public class FilmeController {
 
     @GetMapping("/admin")
     public String admin(Model model) {
-        List<Filme> filmes = filmesService.findAll();
-        model.addAttribute("filmes", filmes);
+    List<Filme> filmes = filmesService.findAll();
+    model.addAttribute("filmes", filmes);
         return "admin";
     }
-
     @GetMapping("/deletar/{id}")
     public String deletarFilme(@PathVariable Long id, Model model) {
         try {
@@ -92,14 +92,14 @@ public class FilmeController {
 
     @GetMapping("/adicionarCarrinho/{id}")
     public String adicionarCarrinho(@PathVariable Long id, HttpSession session) {
-        Filme filme = filmesService.findById(id);
+       Filme filme = filmesService.findById(id);
         List<Filme> carrinho = (List<Filme>) session.getAttribute("carrinho");
         if (carrinho == null) {
             carrinho = new ArrayList<>();
         }
         carrinho.add(filme);
         session.setAttribute("carrinho", carrinho);
-        return "redirect:/";
+        return "redirect:/index";
     }
 
     @GetMapping("/verCarrinho")
@@ -115,7 +115,10 @@ public class FilmeController {
         return "carrinho";
     }
 
-
+    @GetMapping("/finalizarCompra")
+    public String finalizarCompra(HttpSession session,RedirectAttributes redirectAttributes) {
+        session.invalidate();
+        redirectAttributes.addFlashAttribute("mensagemSucesso", "Compra finalizada com sucesso!");
+        return "redirect:/";
+    }
 }
-
-
