@@ -99,7 +99,7 @@ public class FilmeController {
         }
         carrinho.add(filme);
         session.setAttribute("carrinho", carrinho);
-        return "redirect:/index";
+        return "redirect:/";
     }
 
     @GetMapping("/verCarrinho")
