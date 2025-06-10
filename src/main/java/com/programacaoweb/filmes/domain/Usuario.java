@@ -16,6 +16,7 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @Data
+@Builder
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
