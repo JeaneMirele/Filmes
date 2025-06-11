@@ -27,5 +27,4 @@ public class FilmesApplication implements CommandLineRunner, WebMvcConfigurer {
 		registry.addResourceHandler("/images/**").addResourceLocations("/WEB-INF/images/")
 				.setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
 	}
-
 }
