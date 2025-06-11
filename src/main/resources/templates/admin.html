@@ -10,7 +10,7 @@
     <title>Filmes</title>
 </head>
 <body>
-    <div th:replace="fragments :: header-admin"></div>
+    <div th:replace="fragments :: header-admin(${username}, ${isAuthenticated})"></div>
     <main class="lista-filmes">
         <div th:if="${mensagemSucesso}" class="alert alert-info" role="alert">
             <span th:text="${mensagemSucesso}"></span>

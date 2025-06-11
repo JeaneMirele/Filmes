@@ -6,6 +6,8 @@ import com.programacaoweb.filmes.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.AuthenticatedPrincipal;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -34,6 +36,8 @@ public class UsuarioController {
     public String login(Model model) {
         return "login";
     }
+
 }
+
 
 

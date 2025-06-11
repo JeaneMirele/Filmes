@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 </head>
 <body>
-    <div th:fragment="header(count)" class="header">
+    <div th:fragment="header(count, username, isAuthenticated)" class="header">
         <div class="header-container">
             <div class="logo">
                 <span>Filmes</span>
@@ -16,18 +16,42 @@
             </div>
             <div class="header-options">
                 <div th:replace="fragments :: cart(${count})"></div>
+                <div class="d-flex align-items-center">
+                    <span th:text="${username}"></span>
+                </div>
+                <div th:if="${isAuthenticated}">
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="btn">Logout</button>
+                    </form>
+                </div>
+                <div class="btn-group" th:unless="${isAuthenticated}">
+                    <a th:href="@{/login}" class="btn">Login</a>
+                    <a th:href="@{/cadUsuario}" class="btn">Cadastre-se</a>
+                </div>
             </div>
         </div>
     </div>
 
-    <div th:fragment="header-admin" class="header">
+    <div th:fragment="header-admin(username, isAuthenticated)" class="header">
         <div class="header-container">
             <div class="logo">
                 <span>Filmes</span>
                 <span class="dot">.</span>
                 <span class="com">com</span>
             </div>
-            <div>
+            <div class="header-options">
+                <div class="d-flex align-items-center">
+                    <span th:text="${username}"></span>
+                </div>
+                <div th:if="${isAuthenticated}">
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit">Logout</button>
+                    </form>
+                </div>
+                <div class="btn-group" th:unless="${isAuthenticated}">
+                    <a th:href="@{/login}" class="btn">Login</a>
+                    <a th:href="@{/cadUsuario}" class="btn">Cadastre-se</a>
+                </div>
             </div>
         </div>
     </div>

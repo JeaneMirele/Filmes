@@ -1,7 +1,9 @@
 package com.programacaoweb.filmes.controller;
 
 import com.programacaoweb.filmes.domain.Filme;
+import com.programacaoweb.filmes.domain.Usuario;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import com.programacaoweb.filmes.service.FilmesService;
@@ -21,10 +23,17 @@ public class FilmeController {
     private FilmesService filmesService;
 
     @GetMapping
-    public String index(Model model, HttpSession session) {
+    public String index(Model model, HttpSession session, Authentication authentication) {
+        String username = null;
+        if (authentication != null && authentication.isAuthenticated()) {
+            username = authentication.getName();
+        }
+        model.addAttribute("username", username);
         List<Filme> filmes = filmesService.findNotDeletedFilmes();
         model.addAttribute("filmes", filmes);
         model.addAttribute("carrinhoQtd", getCarrinhoQtd(session));
+        boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
+        model.addAttribute("isAuthenticated", isAuthenticated);
         return "index";
     }
 
@@ -56,7 +65,13 @@ public class FilmeController {
     }
 
     @GetMapping("/editar/{id}")
-    public String editarFilme(@PathVariable Long id, Model model, HttpSession session) {
+    public String editarFilme(@PathVariable Long id, Model model, HttpSession session, Authentication authentication) {
+        String username = null;
+        if (authentication != null && authentication.isAuthenticated()) {
+            username = authentication.getName();
+        }
+        model.addAttribute("username", username);
+
         try {
             Filme filme = filmesService.findById(id);
             model.addAttribute("filme", filme);
@@ -69,10 +84,17 @@ public class FilmeController {
     }
 
     @GetMapping("/admin")
-    public String admin(Model model, HttpSession session) {
+    public String admin(Model model, HttpSession session, Authentication authentication) {
+        String username = null;
+        if (authentication != null && authentication.isAuthenticated()) {
+            username = authentication.getName();
+        }
+        model.addAttribute("username", username);
         List<Filme> filmes = filmesService.findAll();
         model.addAttribute("filmes", filmes);
         model.addAttribute("carrinhoQtd", getCarrinhoQtd(session));
+        boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
+        model.addAttribute("isAuthenticated", isAuthenticated);
         return "admin";
     }
 
@@ -80,7 +102,7 @@ public class FilmeController {
     public String deletarFilme(@PathVariable Long id, Model model) {
         try {
             filmesService.delete(id);
-            return "admin";
+            return "redirect:/admin";
         } catch (RuntimeException ex) {
             model.addAttribute("erro", ex.getMessage());
             return "erro";
@@ -118,7 +140,13 @@ public class FilmeController {
     }
 
     @GetMapping("/verCarrinho")
-    public String verCarrinho(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+    public String verCarrinho(HttpSession session, Model model, RedirectAttributes redirectAttributes, Authentication authentication) {
+        String username = null;
+        if (authentication != null && authentication.isAuthenticated()) {
+            username = authentication.getName();
+        }
+        model.addAttribute("username", username);
+
         List<Filme> carrinho = (List<Filme>) session.getAttribute("carrinho");
 
         if (carrinho == null || carrinho.isEmpty()) {
@@ -127,6 +155,8 @@ public class FilmeController {
         }
 
         model.addAttribute("carrinho", carrinho);
+        boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
+        model.addAttribute("isAuthenticated", isAuthenticated);
         return "carrinho";
     }
 
