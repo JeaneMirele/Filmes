@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -7,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 </head>
 <body>
-    <div th:fragment="header(count)" class="header">
+    <div th:fragment="header(count, isAuthenticated)" class="header">
         <div class="header-container">
             <div class="logo">
                 <span>Filmes</span>
@@ -16,6 +17,13 @@
             </div>
             <div class="header-options">
                 <div th:replace="fragments :: cart(${count})"></div>
+                    <div th:if="${isAuthenticated}">
+                        <a th:href="@{/logout}" class="btn">Logout</a>
+                    </div>
+                    <div class="btn-group" th:unless="${isAuthenticated}">
+                        <a th:href="@{/login}" class="btn">Login</a>
+                        <a th:href="@{/cadUsuario}" class="btn">Cadastre-se</a>
+                    </div>
             </div>
         </div>
     </div>
@@ -27,7 +35,14 @@
                 <span class="dot">.</span>
                 <span class="com">com</span>
             </div>
-            <div>
+            <div class="header-options">
+                <div th:if="${isAuthenticated}">
+                    <a th:href="@{/logout}" class="btn">Logout</a>
+                </div>
+                <div class="btn-group" th:unless="${isAuthenticated}">
+                    <a th:href="@{/login}" class="btn">Login</a>
+                    <a th:href="@{/cadUsuario}" class="btn">Cadastre-se</a>
+                </div>
             </div>
         </div>
     </div>

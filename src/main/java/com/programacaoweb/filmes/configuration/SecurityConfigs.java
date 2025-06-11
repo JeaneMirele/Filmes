@@ -21,8 +21,8 @@ public class SecurityConfigs {
                 .authorizeHttpRequests(auth -> {
                       auth.requestMatchers("/", "/index", "/login").permitAll();
                       auth.requestMatchers(HttpMethod.POST, "/login").permitAll();
-                      auth.requestMatchers("/admin", "/cadastro", "/salvar", "/editar/*", "/deletar/*", "/restaurar/*").hasRole("ROLE_ADMIN");
-                      auth.requestMatchers("/vercarrinho", "/adicionarcarrinho", "/finalizarcompra").hasRole("ROLE_USER");
+                      auth.requestMatchers("/admin", "/cadastro", "/salvar", "/editar/*", "/deletar/*", "/restaurar/*").hasRole("ADMIN");
+                      auth.requestMatchers("/vercarrinho", "/adicionarcarrinho", "/finalizarcompra").hasRole("USER");
                       auth.anyRequest().permitAll();
                   })
                 .formLogin(formLogin -> formLogin
