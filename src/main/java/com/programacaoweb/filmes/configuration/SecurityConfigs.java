@@ -19,20 +19,21 @@ public class SecurityConfigs {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> {
-                        auth.requestMatchers("/", "/index", "/login").permitAll();
-                        auth.requestMatchers(HttpMethod.POST, "/login").permitAll();
-                        auth.requestMatchers("/admin", "/cadastro", "/salvar", "/editar/*", "/deletar/*", "/restaurar/*").hasRole("ROLE_ADMIN");
-                        auth.requestMatchers("/vercarrinho", "/adicionarcarrinho", "/finalizarcompra").hasRole("ROLE_USER");
-                        auth.anyRequest().permitAll();
-                    })
-                .formLogin(login -> login.loginPage("/login"))
+                      auth.requestMatchers("/", "/index", "/login").permitAll();
+                      auth.requestMatchers(HttpMethod.POST, "/login").permitAll();
+                      auth.requestMatchers("/admin", "/cadastro", "/salvar", "/editar/*", "/deletar/*", "/restaurar/*").hasRole("ROLE_ADMIN");
+                      auth.requestMatchers("/vercarrinho", "/adicionarcarrinho", "/finalizarcompra").hasRole("ROLE_USER");
+                      auth.anyRequest().permitAll();
+                  })
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/login")
+                        .permitAll())
                 .logout(l -> {
                       l.logoutUrl("/logout");
                       l.clearAuthentication(true);
                       l.deleteCookies().invalidateHttpSession(true);
-                      })
-                 .build();
-
+                  })
+                .httpBasic(httpBasic -> httpBasic.disable()).build();
     }
 
     @Bean

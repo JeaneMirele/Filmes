@@ -29,6 +29,11 @@ public class UsuarioController {
         this.usuarioService.save(usuario);
         return "redirect:/login";
     }
+
+    @GetMapping("/login")
+    public String login(Model model) {
+        return "login";
+    }
 }
 
 
