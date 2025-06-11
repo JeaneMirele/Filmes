@@ -20,7 +20,9 @@ public class SecurityConfigs {
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().permitAll()
                 )
-                .formLogin(formLogin -> formLogin.disable())
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/login")
+                        .permitAll())
                 .httpBasic(httpBasic -> httpBasic.disable()).build();
     }
 
