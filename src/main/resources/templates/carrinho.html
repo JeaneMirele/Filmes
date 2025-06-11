@@ -10,7 +10,7 @@
     <title>Carrinho</title>
 </head>
 <body>
-    <div th:replace="fragments :: header(40)"></div>
+    <div th:replace="fragments :: header(${carrinhoQtd}, ${username}, ${isAuthenticated})"></div>
     <main class="carrinho">
         <div class="cadastro-container">
             <div class="cadastro-container-header">

@@ -10,7 +10,7 @@
     <title>Document</title>
 </head>
 <body>
-    <div th:replace="fragments :: header-admin"></div>
+    <div th:replace="fragments :: header-admin(${username}, ${isAuthenticated})"></div>
     <main class="cadastro">
         <div class="cadastro-container">
             <div class="cadastro-container-header">

@@ -10,7 +10,7 @@
     <title>Document</title>
 </head>
 <body>
-    <div th:replace="fragments :: header(${carrinhoQtd}, ${isAuthenticated})"></div>
+    <div th:replace="fragments :: header(${carrinhoQtd}, ${username}, ${isAuthenticated})"></div>
 
     <main class="catalogo">
         <div th:if="${mensagemError}" class="alert alert-danger" role="alert">

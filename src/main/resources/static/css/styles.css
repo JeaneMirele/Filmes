@@ -34,13 +34,14 @@ main {
 
 .header-container {
     display: grid;
-    grid-template-columns: 14rem 1fr 20rem;
+    grid-template-columns: 14rem 1fr;
     align-items: center;
 }
 
 .header-options {
-    grid-column: 3 / span 1;
+    grid-column: 2 / span 1;
     display: flex;
+    column-gap: 0.5rem;
     flex-direction: row-reverse;
     gap: 10px;
 }
