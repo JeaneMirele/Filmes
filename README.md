@@ -20,7 +20,7 @@ Este projeto foi desenvolvido com Java + Spring Boot. A aplicação consiste em 
 
 ## 🛠️ Tecnologias
 
-- Java 17  
+- Java 21 
 - Spring Boot  
 - Spring Data JPA  
 - Spring Web  
@@ -30,7 +30,7 @@ Este projeto foi desenvolvido com Java + Spring Boot. A aplicação consiste em 
 - Lombok  
 - Bootstrap  
 - Docker  
-- Render.com
+
 
 ---
 
