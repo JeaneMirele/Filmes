@@ -2,10 +2,9 @@ package com.programacaoweb.filmes.service;
 
 import com.programacaoweb.filmes.domain.Filme;
 import com.programacaoweb.filmes.repository.FilmesRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;

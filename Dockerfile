@@ -1,26 +1,29 @@
-FROM ubuntu:latest
-LABEL authors="Jeane"
-# Etapa de build: usa o OpenJDK 24 para compilar o projeto com Maven Wrapper
+# Estágio de Build
 FROM openjdk:21-jdk AS build
-# Define o diretório de trabalho dentro do contêiner
 WORKDIR /app
-# Copia o arquivo de configuração do Maven (pom.xml) para o diretório de trabalho
-COPY pom.xml .
-# Copia o diretório com o código-fonte da aplicação
+
+# CRUCIAL: Copiar os arquivos do Maven Wrapper e o pom.xml primeiro
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+# Garante permissão de execução
+RUN chmod +x mvnw
+
+# Copia o código fonte
 COPY src src
-COPY mvnw .
-COPY .mvn .mvn
-# Dá permissão de execução ao script mvnw
-RUN chmod +x ./mvnw
-# Executa o build da aplicação, pulando os testes
+
+# Executa o build (o wrapper vai baixar o Maven automaticamente se necessário)
 RUN ./mvnw clean package -DskipTests
-# Etapa final: cria a imagem definitiva com a aplicação empacotada com OpenJDK 24 Slim
+
+# Estágio Final (Execução)
 FROM openjdk:21-jdk-slim
-# Cria um volume temporário para arquivos que possam ser escritos pela aplicação
+WORKDIR /app
 VOLUME /tmp
-# Copia o arquivo .jar gerado na etapa de build para o contêiner final
+
+# Copia o jar gerado no estágio anterior
 COPY --from=build /app/target/*.jar app.jar
-# Define o ponto de entrada para executar a aplicação Java
-ENTRYPOINT ["java", "-jar", "/app.jar"]
-# Expõe a porta 8080 para acesso externo à aplicação
+
+# Configuração para o Render (Usa a porta que o Render fornecer ou 8080 como padrão)
+ENV PORT=8080
 EXPOSE 8080
+
+ENTRYPOINT ["java", "-Xmx300m", "-jar", "app.jar"]
