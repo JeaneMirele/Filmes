@@ -4,6 +4,7 @@ import com.programacaoweb.filmes.domain.Filme;
 import com.programacaoweb.filmes.repository.FilmesRepository;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,16 +21,20 @@ public class FilmesService {
      this.fileStorageService = fileStorageService;
      }
 
-     public void save(Filme filme) {
-          if(filme.getId() == null) {
-               fileStorageService.loadRandomFileRelativePath().ifPresent((p) -> {
+     public void save(Filme filme, MultipartFile imagemFile) {
+          if (imagemFile != null && !imagemFile.isEmpty()) {
+
+               String nomeGerado = fileStorageService.saveFile(imagemFile);
+               filme.setImageUrl("/images/" + nomeGerado);
+          } else if (filme.getId() == null) {
+               fileStorageService.loadRandomFileRelativePath().ifPresent(p -> {
                     filme.setImageUrl("/images/" + p.toString());
                });
-          }else{
-               Filme FilmImage = filmesRepository.findById(filme.getId()).orElseThrow();
-               filme.setImageUrl(FilmImage.getImageUrl());
+          } else {
+               Filme antigo = filmesRepository.findById(filme.getId()).orElseThrow();
+               filme.setImageUrl(antigo.getImageUrl());
           }
-          this.filmesRepository.save(filme);
+          filmesRepository.saveAndFlush(filme);
      }
 
      public Filme findById(Long id) {

@@ -1,7 +1,6 @@
 package com.programacaoweb.filmes.controller;
 
 import com.programacaoweb.filmes.domain.Filme;
-import com.programacaoweb.filmes.domain.Usuario;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -11,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,22 @@ public class FilmeController {
     @Autowired
     private FilmesService filmesService;
 
-    @GetMapping
+    @GetMapping("/")
+    public String rotaInicial(Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+
+            if (authentication.getAuthorities().stream()
+                    .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+                return "redirect:/admin";
+            }
+
+            return "redirect:/catalogo";
+        }
+
+        return "redirect:/login";
+    }
+
+    @GetMapping("/catalogo")
     public String index(Model model, HttpSession session, Authentication authentication) {
         String username = null;
         if (authentication != null && authentication.isAuthenticated()) {
@@ -34,7 +49,7 @@ public class FilmeController {
         model.addAttribute("carrinhoQtd", getCarrinhoQtd(session));
         boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
         model.addAttribute("isAuthenticated", isAuthenticated);
-        return "index";
+        return "catalogo";
     }
 
     @GetMapping("/cadastro")
@@ -44,23 +59,19 @@ public class FilmeController {
     }
 
     @PostMapping("/salvar")
-    public String salvar(@ModelAttribute @Valid Filme filme, Errors errors, Model model, RedirectAttributes redirectAttributes) {
-        boolean isUpdate = filme.getId() != null;
+    public String salvar(@ModelAttribute @Valid Filme filme,
+                         Errors errors,
+                         @RequestParam("imagemFile") MultipartFile imagemFile,
+                         RedirectAttributes redirectAttributes) {
 
         if (errors.hasErrors()) {
-            if (!isUpdate) {
-                return "redirect:/cadastro";
-            } else {
-                model.addAttribute("filme", filme);
-                return "redirect:/editar";
-            }
+            return filme.getId() == null ? "cadastro" : "editar";
         }
-        filmesService.save(filme);
-        if (!isUpdate) {
-            redirectAttributes.addFlashAttribute("mensagemSucesso", "Cadastro realizado com sucesso!");
-        } else {
-            redirectAttributes.addFlashAttribute("mensagemSucesso", "Atualização realizada com sucesso!");
-        }
+
+
+        filmesService.save(filme, imagemFile);
+
+        redirectAttributes.addFlashAttribute("mensagemSucesso", "Filme salvo com sucesso!");
         return "redirect:/admin";
     }
 
@@ -128,15 +139,20 @@ public class FilmeController {
     }
 
     @GetMapping("/adicionarCarrinho/{id}")
-    public String adicionarCarrinho(@PathVariable Long id, HttpSession session) {
+    public String adicionarCarrinho(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
         Filme filme = filmesService.findById(id);
+
         List<Filme> carrinho = (List<Filme>) session.getAttribute("carrinho");
         if (carrinho == null) {
             carrinho = new ArrayList<>();
         }
+
         carrinho.add(filme);
         session.setAttribute("carrinho", carrinho);
-        return "redirect:/";
+
+        redirectAttributes.addFlashAttribute("mensagemSucesso", filme.getTitle() + " adicionado ao carrinho!");
+
+        return "redirect:/catalogo";
     }
 
     @GetMapping("/verCarrinho")
@@ -151,7 +167,7 @@ public class FilmeController {
 
         if (carrinho == null || carrinho.isEmpty()) {
             redirectAttributes.addFlashAttribute("mensagemError", "Não existem itens no carrinho");
-            return "redirect:/";
+            return "redirect:/catalogo";
         }
 
         model.addAttribute("carrinho", carrinho);
@@ -164,7 +180,7 @@ public class FilmeController {
     public String finalizarCompra(HttpSession session,RedirectAttributes redirectAttributes) {
         session.invalidate();
         redirectAttributes.addFlashAttribute("mensagemSucesso", "Compra finalizada com sucesso!");
-        return "redirect:/";
+        return "redirect:/catalogo";
     }
 
 }

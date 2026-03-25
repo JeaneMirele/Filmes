@@ -1,103 +1,125 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
 </head>
 <body>
-    <div th:fragment="header(count, username, isAuthenticated)" class="header">
-        <div class="header-container">
-            <div class="logo">
-                <span>Filmes</span>
-                <span class="dot">.</span>
-                <span class="com">com</span>
-            </div>
-            <div class="header-options">
-                <div th:replace="fragments :: cart(${count})"></div>
-                <div class="d-flex align-items-center">
-                    <span th:text="${username}"></span>
+
+<header th:fragment="header-admin" class="header-main w-100">
+    <nav class="container-fluid d-flex justify-content-between align-items-center py-3 px-4">
+
+        <div class="logo m-0">
+            <a th:href="@{/admin}" class="text-decoration-none">
+                <h1 class="brand-title fs-3 m-0 text-white fw-bold">
+                    Filmes<span style="color: #9b51e0;">.Admin</span>
+                </h1>
+            </a>
+        </div>
+
+        <div class="d-flex align-items-center gap-4">
+
+            <a th:href="@{/}" class="text-muted small text-decoration-none fw-bold hover-purple">
+                Ver Loja
+            </a>
+
+            <div class="border-start border-secondary opacity-25" style="height: 24px;"></div>
+
+            <div class="user-options d-flex align-items-center gap-3">
+                <div class="d-flex flex-column align-items-end">
+                    <span class="text-white small fw-bold" th:text="${username}">Admin Name</span>
+                    <span class="badge bg-purple-carrinho" style="font-size: 0.5rem; letter-spacing: 1px;">PAINEL DE CONTROLE</span>
                 </div>
+
                 <div th:if="${isAuthenticated}">
-                    <form th:action="@{/logout}" method="post">
-                        <button type="submit" class="btn">Logout</button>
+                    <form th:action="@{/logout}" method="post" class="m-0">
+                        <button type="submit" class="btn btn-outline-danger btn-sm border-0 opacity-75 hover-opacity-100">
+                            Sair
+                        </button>
                     </form>
-                </div>
-                <div class="btn-group" th:unless="${isAuthenticated}">
-                    <a th:href="@{/login}" class="btn">Login</a>
-                    <a th:href="@{/cadUsuario}" class="btn">Cadastre-se</a>
                 </div>
             </div>
         </div>
-    </div>
+    </nav>
+</header>
 
-    <div th:fragment="header-admin(username, isAuthenticated)" class="header">
-        <div class="header-container">
-            <div class="logo">
-                <span>Filmes</span>
-                <span class="dot">.</span>
-                <span class="com">com</span>
-            </div>
-            <div class="header-options">
-                <div class="d-flex align-items-center">
-                    <span th:text="${username}"></span>
+<header th:fragment="header" class="header-main w-100">
+    <nav class="container-fluid d-flex justify-content-between align-items-center py-3 px-4">
+
+        <div class="logo m-0">
+            <a th:href="@{/}" class="text-decoration-none">
+                <h1 class="brand-title fs-3 m-0 text-white fw-bold">
+                    Filmes<span style="color: #9b51e0;">.Com</span>
+                </h1>
+            </a>
+        </div>
+
+        <div class="d-flex align-items-center gap-4">
+
+            <a th:href="@{/verCarrinho}" class="cart-link text-decoration-none position-relative d-flex align-items-center gap-2">
+                <div class="cart-icon-wrapper position-relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-cart cart-icon text-purple-cart" viewBox="0 0 16 16">
+                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                    </svg>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-purple-carrinho" th:text="${count}">0</span>
                 </div>
+                <span class="text-secondary">Carrinho</span>
+            </a>
+
+            <div class="border-start border-secondary opacity-25" style="height: 24px;"></div>
+
+            <div class="user-options d-flex align-items-center gap-3">
+                <span class="text-secondary" th:text="${username}"></span>
+
                 <div th:if="${isAuthenticated}">
-                    <form th:action="@{/logout}" method="post">
-                        <button type="submit">Logout</button>
+                    <form th:action="@{/logout}" method="post" class="m-0">
+                        <button type="submit" class="btn btn-outline-secondary btn-sm">Sair</button>
                     </form>
                 </div>
-                <div class="btn-group" th:unless="${isAuthenticated}">
-                    <a th:href="@{/login}" class="btn">Login</a>
-                    <a th:href="@{/cadUsuario}" class="btn">Cadastre-se</a>
+
+                <div th:unless="${isAuthenticated}" class="d-flex gap-2">
+                    <a th:href="@{/login}" class="btn btn-gradient btn-sm text-white text-decoration-none">Login</a>
+                    <a th:href="@{/cadUsuario}" class="btn btn-outline-secondary btn-sm text-decoration-none">Cadastre-se</a>
                 </div>
             </div>
         </div>
+    </nav>
+</header>
+
+<article th:fragment="card(filme)" class="card-filme">
+
+    <div class="card-img-container">
+        <img th:src="${filme.imageUrl}" alt="Poster" class="img-fluid rounded-top" />
     </div>
 
-    <a th:href="@{'/verCarrinho'}" th:fragment="cart(count)" class="position-relative text-decoration-none cart">
+    <div class="card-body p-3 flex-grow-1 d-flex flex-column justify-content-between">
+        <div class="text-center mb-3">
+            <h5 class="text-white fw-bold fs-6 mb-1" th:text="${filme.title}">Título</h5>
+            <p class="text-clean" th:text="${filme.genre}">Gênero</p>
+        </div>
         <div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-cart cart-icon" viewBox="0 0 16 16">
-                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-            </svg>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                <span th:text="${count}"></span>
-                <span class="visually-hidden">unread messages</span>
-            </span>
-        </div>
-        <span>
-            Carrinho
-        </span>
-    </a>
-
-
-    <div th:fragment="card(filme)" class="card">
-        <img th:src="@{${filme.imageUrl}}" alt="Imagem" class="card-img" />
-        <div class="card-body" >
-            <div>
-                <div class="d-flex justify-content-center"><h5 class="card-title text-center" th:text="${filme.title}">Nome do Produto</h5></div>
-                <div class="d-flex justify-content-center"><p class="card-text text-center" th:text="${filme.genre}">Gênero</p></div>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="text-clean">Preço</span>
+                <span class="text-purple fw-bold" th:text="'R$ ' + ${filme.price}">R$ 0.00</span>
             </div>
-            <div>
-                <div class="d-flex justify-content-end"><p class="preco" th:text="'R$ ' + ${filme.price}">Preço</p></div>
-                <a th:href="@{'/adicionarCarrinho/' + ${filme.id}}" class="btn">Adicionar ao Carrinho</a>
+
+                <a th:href="@{'/adicionarCarrinho/' + ${filme.id}}" class="btn btn-gradient btn-sm w-100">Adicionar</a>
             </div>
         </div>
     </div>
+</article>
 
-    <footer th:fragment="footer" class="footer">
-        <div class="d-flex justify-content-center">
-            <p>&copy;
-                <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2025</span> Filmes.com. Todos os direitos reservados.
-            </p>
-        </div>
-        <div class="d-flex justify-content-center">
-            <p>
-            <a href="#" class="text">Política de Privacidade</a> |
-            <a href="#" class="text-2">Termos de Uso</a>
-            </p>
-        </div>
-    </footer>
+<footer th:fragment="footer" class="footer mt-auto py-4">
+    <div class="container text-center">
+        <p class="text-secondary">
+            &copy; <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}"></span> Filmes.com. Todos os direitos reservados.
+        </p>
+        <nav class="footer-links">
+            <a href="#" class="text-secondary text-decoration-none mx-2">Política de Privacidade</a> |
+            <a href="#" class="text-secondary text-decoration-none mx-2">Termos de Uso</a>
+        </nav>
+    </div>
+</footer>
+
+
 </body>
 </html>

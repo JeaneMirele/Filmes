@@ -22,9 +22,5 @@ public class FilmesApplication implements CommandLineRunner, WebMvcConfigurer {
 	public void run(String... args) throws Exception {
 
 	}
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/images/**").addResourceLocations("/WEB-INF/images/")
-				.setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
-	}
+
 }

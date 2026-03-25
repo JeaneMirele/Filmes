@@ -19,19 +19,15 @@ public class SecurityConfigs {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> {
-                      auth.requestMatchers("/", "/index", "/login").permitAll();
-                      auth.requestMatchers(HttpMethod.POST, "/login").permitAll();
-                      auth.requestMatchers("/admin", "/cadastro", "/salvar", "/editar/*", "/deletar/*", "/restaurar/*").hasRole("ADMIN");
-                      auth.requestMatchers("/verCarrinho", "/adicionarCarrinho", "/finalizarCompra").hasRole("USER");
-                      auth.anyRequest().permitAll();
-                  })
+                    auth.requestMatchers("/login", "/css/**", "/js/**", "/images/**").permitAll();
+                    auth.anyRequest().authenticated();
+                })
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
+                        .defaultSuccessUrl("/", true)
                         .permitAll())
-                .logout(logout -> logout
-                        .permitAll()
-                )
-                .httpBasic(httpBasic -> httpBasic.disable()).build();
+                .logout(logout -> logout.permitAll())
+                .build();
     }
 
     @Bean
