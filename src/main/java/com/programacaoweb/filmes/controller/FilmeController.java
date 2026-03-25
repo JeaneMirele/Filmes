@@ -61,7 +61,7 @@ public class FilmeController {
     @PostMapping("/salvar")
     public String salvar(@ModelAttribute @Valid Filme filme,
                          Errors errors,
-                         @RequestParam("imagemFile") MultipartFile imagemFile,
+                         @RequestParam(value = "imagemFile", required = false) MultipartFile imagemFile,
                          RedirectAttributes redirectAttributes) {
 
         if (errors.hasErrors()) {

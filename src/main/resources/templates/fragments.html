@@ -5,85 +5,44 @@
 </head>
 <body>
 
-<header th:fragment="header-admin" class="header-main w-100">
-    <nav class="container-fluid d-flex justify-content-between align-items-center py-3 px-4">
+<div th:fragment="header-admin(count, username, isAuthenticated)" class="header w-100 p-3">
+    <div class="d-flex align-items-center justify-content-end gap-3 text-white">
 
-        <div class="logo m-0">
-            <a th:href="@{/admin}" class="text-decoration-none">
-                <h1 class="brand-title fs-3 m-0 text-white fw-bold">
-                    Filmes<span style="color: #9b51e0;">.Admin</span>
-                </h1>
-            </a>
+        <div th:replace="fragments :: cart(${count})"></div>
+
+        <div class="d-flex align-items-center">
+            <span th:text="${username}" class="fw-bold"></span>
         </div>
 
-        <div class="d-flex align-items-center gap-4">
-
-            <a th:href="@{/}" class="text-muted small text-decoration-none fw-bold hover-purple">
-                Ver Loja
-            </a>
-
-            <div class="border-start border-secondary opacity-25" style="height: 24px;"></div>
-
-            <div class="user-options d-flex align-items-center gap-3">
-                <div class="d-flex flex-column align-items-end">
-                    <span class="text-white small fw-bold" th:text="${username}">Admin Name</span>
-                    <span class="badge bg-purple-carrinho" style="font-size: 0.5rem; letter-spacing: 1px;">PAINEL DE CONTROLE</span>
-                </div>
-
-                <div th:if="${isAuthenticated}">
-                    <form th:action="@{/logout}" method="post" class="m-0">
-                        <button type="submit" class="btn btn-outline-danger btn-sm border-0 opacity-75 hover-opacity-100">
-                            Sair
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </nav>
-</header>
-
-<header th:fragment="header" class="header-main w-100">
-    <nav class="container-fluid d-flex justify-content-between align-items-center py-3 px-4">
-
-        <div class="logo m-0">
-            <a th:href="@{/}" class="text-decoration-none">
-                <h1 class="brand-title fs-3 m-0 text-white fw-bold">
-                    Filmes<span style="color: #9b51e0;">.Com</span>
-                </h1>
-            </a>
+        <div th:if="${isAuthenticated}">
+            <form th:action="@{/logout}" method="post" class="m-0">
+                <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
+            </form>
         </div>
 
-        <div class="d-flex align-items-center gap-4">
-
-            <a th:href="@{/verCarrinho}" class="cart-link text-decoration-none position-relative d-flex align-items-center gap-2">
-                <div class="cart-icon-wrapper position-relative">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-cart cart-icon text-purple-cart" viewBox="0 0 16 16">
-                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-                    </svg>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-purple-carrinho" th:text="${count}">0</span>
-                </div>
-                <span class="text-secondary">Carrinho</span>
-            </a>
-
-            <div class="border-start border-secondary opacity-25" style="height: 24px;"></div>
-
-            <div class="user-options d-flex align-items-center gap-3">
-                <span class="text-secondary" th:text="${username}"></span>
-
-                <div th:if="${isAuthenticated}">
-                    <form th:action="@{/logout}" method="post" class="m-0">
-                        <button type="submit" class="btn btn-outline-secondary btn-sm">Sair</button>
-                    </form>
-                </div>
-
-                <div th:unless="${isAuthenticated}" class="d-flex gap-2">
-                    <a th:href="@{/login}" class="btn btn-gradient btn-sm text-white text-decoration-none">Login</a>
-                    <a th:href="@{/cadUsuario}" class="btn btn-outline-secondary btn-sm text-decoration-none">Cadastre-se</a>
-                </div>
-            </div>
+        <div class="btn-group" th:unless="${isAuthenticated}">
+            <a th:href="@{/login}" class="btn btn-outline-light btn-sm">Login</a>
+            <a th:href="@{/cadUsuario}" class="btn btn-light btn-sm">Cadastre-se</a>
         </div>
-    </nav>
-</header>
+
+    </div>
+</div>
+
+<a th:href="@{'/verCarrinho'}" th:fragment="cart(count)" class="position-relative text-decoration-none cart">
+    <div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-cart cart-icon" viewBox="0 0 16 16">
+            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+        </svg>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                <span th:text="${count}"></span>
+                <span class="visually-hidden">unread messages</span>
+            </span>
+    </div>
+    <span>
+            Carrinho
+        </span>
+</a>
+
 
 <article th:fragment="card(filme)" class="card-filme">
 
@@ -105,7 +64,6 @@
                 <a th:href="@{'/adicionarCarrinho/' + ${filme.id}}" class="btn btn-gradient btn-sm w-100">Adicionar</a>
             </div>
         </div>
-    </div>
 </article>
 
 <footer th:fragment="footer" class="footer mt-auto py-4">

@@ -8,21 +8,21 @@
     <title>Catálogo - Filmes.Com</title>
 </head>
 <body>
-
-<main class="admin-page">
+<div th:replace="fragments :: header-admin(${carrinhoQtd}, ${username}, ${isAuthenticated})"></div>
+<main class="container py-4">
     <div th:if="${mensagemError}" class="alert alert-danger border-0 bg-danger bg-opacity-10 text-danger text-center mb-4" role="alert">
         <span th:text="${mensagemError}"></span>
     </div>
     <div th:if="${mensagemSucesso}" class="alert alert-success border-0 bg-success bg-opacity-10 text-success text-center mb-4" role="alert">
         <span th:text="${mensagemSucesso}"></span>
     </div>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 justify-content-center">
 
-            <div th:each="filme : ${filmes}" class="col d-flex justify-content-center">
-                <div th:replace="~{fragments :: card(${filme})}" class="w-100"></div>
-            </div>
-
+    <div class="catalogo-grid">
+        <div th:each="filme : ${filmes}">
+            <div th:replace="~{fragments :: card(${filme})}"></div>
         </div>
+    </div>
+
 </main>
 
 <footer th:replace="~{fragments :: footer}"></footer>
