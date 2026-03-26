@@ -18,7 +18,7 @@ public class Usuario {
     @NotBlank(message = "O nome deve ser preenchido")
     @Column(unique = true)
     private String username;
-    @Size(min = 4, message = "A senha deve conter no mínimo 4 caracteres")
+    @Size(min = 3, message = "A senha deve conter no mínimo 3 caracteres")
     private String password;
     private Boolean isAdmin;
 
