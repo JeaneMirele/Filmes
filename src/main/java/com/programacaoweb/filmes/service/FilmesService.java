@@ -23,17 +23,21 @@ public class FilmesService {
 
      public void save(Filme filme, MultipartFile imagemFile) {
           if (imagemFile != null && !imagemFile.isEmpty()) {
-
                String nomeGerado = fileStorageService.saveFile(imagemFile);
                filme.setImageUrl("/images/" + nomeGerado);
+
           } else if (filme.getId() == null) {
                fileStorageService.loadRandomFileRelativePath().ifPresent(p -> {
                     filme.setImageUrl("/images/" + p.toString());
                });
+
           } else {
-               Filme antigo = filmesRepository.findById(filme.getId()).orElseThrow();
+               Filme antigo = filmesRepository.findById(filme.getId())
+                       .orElseThrow(() -> new RuntimeException("Filme não encontrado"));
+
                filme.setImageUrl(antigo.getImageUrl());
           }
+
           filmesRepository.saveAndFlush(filme);
      }
 
