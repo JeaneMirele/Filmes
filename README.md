@@ -52,7 +52,7 @@ A aplicação consiste em um sistema de listagem, cadastro e compra de filmes fi
 - `/verCarrinho` — Lista itens do carrinho
 - `/finalizarCompra` — Finaliza compra e limpa sessão
 
-##Público
+## Público
 - `/login`, `/logout`, `/cadastroUsuario`
 
 ### Admin
